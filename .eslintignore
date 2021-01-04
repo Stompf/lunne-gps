@@ -1,0 +1,8 @@
+node_modules
+dist
+server-dist
+coverage
+public
+webpack.*.js
+.prettierrc.js
+.eslintrc.js
