@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "preLaunchTask": "npm: start-dev",
+            "name": "Start Debug",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/public",
+            "sourceMapPathOverrides": {
+                "webpack:///./*": "${workspaceFolder}/*"
+            },
+            "sourceMaps": true,
+            "smartStep": true,
+            "userDataDir": "${workspaceFolder}/.vscode/chrome"
+        }
+    ]
+}
