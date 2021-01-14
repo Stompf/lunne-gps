@@ -6,3 +6,4 @@ public
 webpack.*.js
 .prettierrc.js
 .eslintrc.js
+next.config.js
