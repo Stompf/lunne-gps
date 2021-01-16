@@ -10,6 +10,7 @@
         "lint": "eslint --ext .js,.jsx,.ts,.tsx ./pages"
     },
     "dependencies": {
+        "@material-ui/core": "^4.11.2",
         "jsdom": "^16.4.0",
         "leaflet": "^1.7.1",
         "leaflet-defaulticon-compatibility": "^0.1.1",
