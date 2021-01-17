@@ -5,7 +5,7 @@ import { Gpx } from './models/gpx';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const obj: Gpx = parseXML('upload', req.body);
 
-    console.log(obj.gpx.metadata);
+    console.log(obj.gpx.array);
 
     res.status(200).json({ status: 'ok' });
 };

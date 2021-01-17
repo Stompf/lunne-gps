@@ -63,6 +63,7 @@ export interface Gpx {
         };
         wpt?: Wpt;
         trk?: Track;
+        array?: Wpt[] | Track[];
     };
 }
 
