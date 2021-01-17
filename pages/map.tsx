@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import 'leaflet-defaulticon-compatibility';
 import { LatLngTuple } from 'leaflet';
-import { ResponseUploadGpx } from '../common/responseUploadMap';
+import { ResponseUploadGpx } from '../common/upload-gpx.response';
 
 interface MapProps {
     map: ResponseUploadGpx | null;

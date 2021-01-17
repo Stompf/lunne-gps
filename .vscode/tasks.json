@@ -20,6 +20,14 @@
                     "endsPattern": "compiled successfully"
                 }
             }
+        },
+        {
+            "group": "build",
+            "label": "npm: start-db",
+            "type": "npm",
+            "script": "start-db",
+            "isBackground": true,
+            "problemMatcher": []
         }
     ]
 }
