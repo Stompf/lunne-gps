@@ -1,15 +1,16 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse, PageConfig } from 'next';
 import { parseXML } from '../../common/parseXML';
+import { Gpx } from './models/gpx';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const obj = parseXML('upload', req.body);
+    const obj: Gpx = parseXML('upload', req.body);
 
-    console.log(obj.gpx);
+    console.log(obj.gpx.metadata);
 
     res.status(200).json({ status: 'ok' });
 };
 
-export const config = {
+export const config: PageConfig = {
     api: {
         bodyParser: {
             sizeLimit: '10mb',
