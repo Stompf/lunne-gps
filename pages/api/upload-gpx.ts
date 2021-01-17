@@ -6,15 +6,21 @@ import { Gpx } from './models/gpx';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const obj: Gpx = parseXML('upload', req.body);
 
-    const { wpt } = obj.gpx;
+    const { wpt, trk } = obj.gpx;
 
     const response: ResponseUploadGpx = {
         wpt: wpt
             ? {
-                  lat: wpt.lat,
-                  long: wpt.lon,
+                  lat: Number(wpt.lat),
+                  long: Number(wpt.lon),
                   name: wpt.name.data,
               }
+            : null,
+        trk: trk
+            ? trk.trkseg.array.map((seg) => ({
+                  lat: Number(seg.trkpt.lat),
+                  long: Number(seg.trkpt.lon),
+              }))
             : null,
     };
     res.status(200).json(response);
