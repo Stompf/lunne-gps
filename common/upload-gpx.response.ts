@@ -1,14 +1,5 @@
-export interface ResponseUploadGpx {
-    wpt: {
-        lat: number;
-        long: number;
-        name: string;
-    } | null;
+import { MapTrack } from '../pages/api/models/database/map-track';
 
-    trk:
-        | {
-              lat: number;
-              long: number;
-          }[]
-        | null;
+export interface ResponseUploadGpx {
+    mapTracks: MapTrack[];
 }

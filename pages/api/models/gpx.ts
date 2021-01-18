@@ -63,11 +63,11 @@ export interface Gpx {
         };
         wpt?: Wpt;
         trk?: Track;
-        array?: Wpt[] | Track[];
+        array?: (Wpt | Track)[];
     };
 }
 
-interface Wpt {
+export interface Wpt {
     /**
      * example '56.208243370056152'
      */
@@ -122,7 +122,7 @@ interface Wpt {
     };
 }
 
-interface Track {
+export interface Track {
     name: {
         /**
          * example 'Döda byn 2020-08-29'
@@ -147,7 +147,7 @@ interface Track {
     trkseg: { array: TrackPoint[] };
 }
 
-interface TrackPoint {
+export interface TrackPoint {
     trkpt: {
         /**
          * example '56.208243370056152'

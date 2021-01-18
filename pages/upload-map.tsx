@@ -2,7 +2,7 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import { ResponseUploadGpx } from '../common/responseUploadMap';
+import { ResponseUploadGpx } from '../common/upload-gpx.response';
 
 interface UploadMapProps {
     setMap: React.Dispatch<React.SetStateAction<ResponseUploadGpx | null>>;

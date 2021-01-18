@@ -28,40 +28,40 @@ const Map: React.FC<MapProps> = ({ map }) => (
 export default Map;
 
 function getCenter(map: ResponseUploadGpx | null): LatLngTuple {
-    if (!map || !map.wpt) {
+    if (!map || !map.mapTracks[0].parking) {
         return [55.70931748427305, 13.20301329459559];
     }
 
-    console.log('changed!');
-    return [map.wpt.lat, map.wpt.long];
+    return [map.mapTracks[0].parking.lat, map.mapTracks[0].parking.long];
 }
 
 function getMarkers(map: ResponseUploadGpx | null) {
-    if (!map || !map.wpt) {
+    if (!map || !map.mapTracks) {
         return null;
     }
 
-    return (
-        <Marker position={[map.wpt.lat, map.wpt.long]}>
-            <Popup>{map.wpt.name}</Popup>
+    return map.mapTracks.map((trk) => (
+        <Marker key={trk.name} position={[trk.parking.lat, trk.parking.long]}>
+            <Popup>{trk.name}</Popup>
         </Marker>
-    );
+    ));
 }
 
 function getPolylines(map: ResponseUploadGpx | null) {
-    if (!map || !map.trk) {
+    if (!map || !map.mapTracks) {
         return null;
     }
 
-    return (
+    return map.mapTracks.map((trk) => (
         <Polyline
-            pathOptions={{ color: 'red' }}
+            key={trk.name}
+            pathOptions={{ color: trk.color }}
             positions={[
-                map.trk.map((trk) => ({
-                    lat: trk.lat,
-                    lng: trk.long,
+                trk.trkSegs.map((trkSeg) => ({
+                    lat: trkSeg.lat,
+                    lng: trkSeg.long,
                 })),
             ]}
         />
-    );
+    ));
 }
