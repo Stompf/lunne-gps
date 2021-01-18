@@ -1,70 +1,72 @@
+export interface GpxRoot {
+    gpx: Gpx;
+}
+
 export interface Gpx {
-    gpx: {
-        /**
-         * example 'http://www.topografix.com/GPX/1/1'
-         */
-        xmlns: string;
-        /**
-         * example 'MapSource 6.16.3'
-         */
-        creator: string;
-        /**
-         * example '1.1'
-         */
-        version: string;
-        /**
-         * example 'http://www.w3.org/2001/XMLSchema-instance'
-         */
-        'xmlns:xsi': string;
-        /**
-         * example 'http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd'
-         */
-        'xsi:schemaLocation': string;
-        metadata: {
-            link: {
+    /**
+     * example 'http://www.topografix.com/GPX/1/1'
+     */
+    xmlns: string;
+    /**
+     * example 'MapSource 6.16.3'
+     */
+    creator: string;
+    /**
+     * example '1.1'
+     */
+    version: string;
+    /**
+     * example 'http://www.w3.org/2001/XMLSchema-instance'
+     */
+    'xmlns:xsi': string;
+    /**
+     * example 'http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd'
+     */
+    'xsi:schemaLocation': string;
+    metadata: {
+        link: {
+            /**
+             * example 'http://www.garmin.com'
+             */
+            href: string;
+            text: {
                 /**
-                 * example 'http://www.garmin.com'
-                 */
-                href: string;
-                text: {
-                    /**
-                     * example 'Garmin International'
-                     */
-                    data: string;
-                };
-            };
-            time: {
-                /**
-                 * example '2020-08-31T07:59:59Z'
+                 * example 'Garmin International'
                  */
                 data: string;
             };
-            bounds: {
-                /**
-                 * example '56.227319994941354'
-                 */
-                maxlat: string;
-
-                /**
-                 * example '14.36336187645793'
-                 */
-                maxlon: string;
-
-                /**
-                 * example '56.187472594901919'
-                 */
-                minlat: string;
-
-                /**
-                 * example '14.302313709631562'
-                 */
-                minlon: string;
-            };
         };
-        wpt?: Wpt;
-        trk?: Track;
-        array?: (Wpt | Track)[];
+        time: {
+            /**
+             * example '2020-08-31T07:59:59Z'
+             */
+            data: string;
+        };
+        bounds: {
+            /**
+             * example '56.227319994941354'
+             */
+            maxlat: string;
+
+            /**
+             * example '14.36336187645793'
+             */
+            maxlon: string;
+
+            /**
+             * example '56.187472594901919'
+             */
+            minlat: string;
+
+            /**
+             * example '14.302313709631562'
+             */
+            minlon: string;
+        };
     };
+    wpt?: Wpt;
+    trk?: Track;
+    array?: (Wpt | Track)[];
 }
 
 export interface Wpt {
