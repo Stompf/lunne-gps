@@ -131,7 +131,7 @@ export interface Track {
          */
         data: string;
     };
-    extensions: {
+    extensions?: {
         'gpxx:TrackExtension': {
             /**
              * example "http://www.garmin.com/xmlschemas/GpxExtensions/v3"

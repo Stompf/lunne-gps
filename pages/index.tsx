@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import UploadMap from './upload-map';
-import { ResponseUploadGpx } from '../common/responseUploadMap';
+import { ResponseUploadGpx } from '../common/upload-gpx.response';
 
 export default function Home() {
     const [map, setMap] = useState<ResponseUploadGpx | null>(null);

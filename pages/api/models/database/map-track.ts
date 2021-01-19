@@ -6,7 +6,6 @@ export interface MapTrack {
     name: string;
     version: number;
     gpxVersion: string;
-    parking: LatLong;
     trkSegs: TrackSeg[];
     totalLengthKilometers: number;
     color: string;

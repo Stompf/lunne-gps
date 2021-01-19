@@ -2,22 +2,25 @@ import type { NextApiRequest, NextApiResponse, PageConfig } from 'next';
 import { parseXML } from '../../common/parseXML';
 import { ResponseUploadGpx } from '../../common/upload-gpx.response';
 import { MapTrack, MapTrackVersion, TrackSeg } from './models/database/map-track';
+import { Waypoint, WaypointVersion } from './models/database/waypoint';
 import { Gpx, GpxRoot, Track, TrackPoint, Wpt } from './models/gpx';
-import { LatLong } from './models/lat-long';
 import { distance } from './services/geo-utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const obj: GpxRoot = parseXML('upload', req.body);
 
     const mapTracks = getMapTracks(obj.gpx);
+    const waypoints = getWaypoints(obj.gpx);
+
     const response: ResponseUploadGpx = {
         mapTracks,
+        waypoints,
     };
 
     res.status(200).json(response);
 };
 
-function getMapTracks(gpx: Gpx) {
+function getMapTracks(gpx: Gpx): MapTrack[] {
     const { trk, array = [] } = gpx;
 
     if (trk) {
@@ -28,6 +31,29 @@ function getMapTracks(gpx: Gpx) {
         .filter(isTrack)
         .map(mapToTrack)
         .map((track) => mapTrk(track, gpx));
+}
+
+function getWaypoints(gpx: Gpx): Waypoint[] {
+    const { wpt, array = [] } = gpx;
+
+    if (wpt) {
+        return [mapWaypoint(wpt, gpx)];
+    }
+
+    return array
+        .filter(isWpt)
+        .map(mapToWpt)
+        .map((waypoint) => mapWaypoint(waypoint, gpx));
+}
+
+function mapWaypoint(wpt: Wpt, gpx: Gpx): Waypoint {
+    return {
+        gpxVersion: gpx.version,
+        lat: Number(wpt.lat),
+        long: Number(wpt.lon),
+        name: wpt.name.data,
+        version: WaypointVersion,
+    };
 }
 
 function mapTrk(trk: Track, gpx: Gpx): MapTrack {
@@ -44,70 +70,38 @@ function mapTrk(trk: Track, gpx: Gpx): MapTrack {
 
     const name = getName(trk.name.data);
 
-    console.log(`name ${name}`);
-
     const mapTrack: MapTrack = {
-        color: trk.extensions['gpxx:TrackExtension']['gpxx:DisplayColor'].data,
+        color: trk.extensions?.['gpxx:TrackExtension']['gpxx:DisplayColor'].data || 'red',
         name,
         gpxVersion: gpx.version,
         version: MapTrackVersion,
         trkSegs,
         totalLengthKilometers,
-        parking: getParking(name, gpx),
     };
+    console.log(`mapTrack - ${mapTrack.name} - ${mapTrack.color} - ${mapTrack.gpxVersion}`);
+
     return mapTrack;
 }
 
 function getTrks(trksegs: TrackPoint[]): TrackSeg[] {
-    return trksegs.map(({ trkpt }) => ({
+    const mappedSegs = trksegs.map(({ trkpt }) => ({
         elevation: Number(trkpt.ele),
         lat: Number(trkpt.lat),
         long: Number(trkpt.lon),
         time: trkpt.time?.data ?? '',
     }));
+    // Adds the start at the end to end the loop
+    return mappedSegs.concat(mappedSegs.slice(0));
 }
 
-function getParking(name: string, gpx: Gpx): LatLong {
-    if (gpx.wpt) {
-        return {
-            lat: Number(gpx.wpt.lat),
-            long: Number(gpx.wpt.lon),
-        };
-    }
-
-    const wpt =
-        gpx.array &&
-        gpx.array
-            .filter(isWpt)
-            .map(mapToWpt)
-            .find(
-                (x) =>
-                    getName(x.name.data).toLowerCase() === name.toLowerCase() &&
-                    isParkingArea(x.sym.data)
-            );
-
-    if (!wpt) {
-        throw new Error(`Could not find parking for: ${name}`);
-    }
-
-    return {
-        lat: Number(wpt.lat),
-        long: Number(wpt.lon),
-    };
-}
-
-function isParkingArea(symData: string) {
-    return symData === 'Trail Head' || symData === 'Parking Area';
+function isTrack(x: any): x is Track {
+    return x?.trkseg || x?.trk?.trkseg;
 }
 
 function isWpt(x: any): x is Wpt {
     return (
         x?.extensions?.['gpxx:WaypointExtension'] || x?.wpt?.extensions?.['gpxx:WaypointExtension']
     );
-}
-
-function isTrack(x: any): x is Track {
-    return x?.extensions?.['gpxx:TrackExtension'] || x?.trk?.extensions?.['gpxx:TrackExtension'];
 }
 
 function mapToTrack(x: any): Track {
@@ -119,7 +113,7 @@ function mapToWpt(x: any): Wpt {
 }
 
 function getName(name: string) {
-    return name.substr(0, name.indexOf('-'));
+    return name; // name.substr(0, name.indexOf('-'));
 }
 
 export const config: PageConfig = {

@@ -12,7 +12,7 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({ map }) => (
     <MapContainer
-        center={getCenter(map)}
+        center={getCenter()}
         zoom={10}
         scrollWheelZoom
         style={{ height: 700, width: '100%' }}
@@ -27,22 +27,18 @@ const Map: React.FC<MapProps> = ({ map }) => (
 );
 export default Map;
 
-function getCenter(map: ResponseUploadGpx | null): LatLngTuple {
-    if (!map || !map.mapTracks[0].parking) {
-        return [55.70931748427305, 13.20301329459559];
-    }
-
-    return [map.mapTracks[0].parking.lat, map.mapTracks[0].parking.long];
+function getCenter(): LatLngTuple {
+    return [55.70931748427305, 13.20301329459559];
 }
 
 function getMarkers(map: ResponseUploadGpx | null) {
-    if (!map || !map.mapTracks) {
+    if (!map || !map.waypoints) {
         return null;
     }
 
-    return map.mapTracks.map((trk) => (
-        <Marker key={trk.name} position={[trk.parking.lat, trk.parking.long]}>
-            <Popup>{trk.name}</Popup>
+    return map.waypoints.map((wpt) => (
+        <Marker key={wpt.name} position={[wpt.lat, wpt.long]}>
+            <Popup>{wpt.name}</Popup>
         </Marker>
     ));
 }
@@ -55,7 +51,7 @@ function getPolylines(map: ResponseUploadGpx | null) {
     return map.mapTracks.map((trk) => (
         <Polyline
             key={trk.name}
-            pathOptions={{ color: trk.color }}
+            pathOptions={{ color: trk.color ?? 'red' }}
             positions={[
                 trk.trkSegs.map((trkSeg) => ({
                     lat: trkSeg.lat,
