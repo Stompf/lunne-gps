@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import 'leaflet-defaulticon-compatibility';
@@ -40,7 +40,17 @@ function getMarkers(map: ResponseUploadGpx | null) {
 
     return map.mapTracks.map((trk) => (
         <Marker key={trk.name} position={[trk.parking.lat, trk.parking.long]}>
-            <Popup>{`${trk.name} - ${trk.parking.lat} ${trk.parking.long}`}</Popup>
+            <Popup>
+                <p>{trk.name}</p>
+                <p>{`${trk.totalLengthKilometers}km`}</p>
+                <a
+                    href={`http://www.google.com/maps/place/${trk.parking.lat},${trk.parking.long}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Link
+                </a>
+            </Popup>
         </Marker>
     ));
 }
@@ -60,7 +70,9 @@ function getPolylines(map: ResponseUploadGpx | null) {
                     lng: trkSeg.long,
                 })),
             ]}
-        />
+        >
+            <Tooltip sticky>{trk.name}</Tooltip>
+        </Polyline>
     ));
 }
 

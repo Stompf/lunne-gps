@@ -35,8 +35,6 @@ async function handleOnChange(event: React.FormEvent<HTMLInputElement>, props: U
         return;
     }
 
-    console.log('send', files[0]);
-
     const response = await fetch('/api/upload-gpx', {
         method: 'POST',
         body: files[0],

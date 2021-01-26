@@ -49,8 +49,8 @@ function getWaypoints(gpx: Gpx): Waypoint[] {
 function mapWaypoint(wpt: Wpt, gpx: Gpx): Waypoint {
     return {
         gpxVersion: gpx.version,
-        lat: Number(Number(wpt.lat).toFixed(4)),
-        long: Number(Number(wpt.lon).toFixed(4)),
+        lat: Number(wpt.lat),
+        long: Number(wpt.lon),
         name: wpt.name.data,
         version: WaypointVersion,
         sym: wpt.sym?.data ?? '',
@@ -60,14 +60,18 @@ function mapWaypoint(wpt: Wpt, gpx: Gpx): Waypoint {
 function mapTrk(trk: Track, gpx: Gpx): MapTrack | undefined {
     const trkSegs = getTrks(trk.trkseg.array);
 
-    const totalLengthKilometers = trkSegs.reduce((prev, curr, index) => {
-        if (index === 0) {
-            return 0;
-        }
+    const totalLengthKilometers = Number(
+        trkSegs
+            .reduce((prev, curr, index) => {
+                if (index === 0) {
+                    return 0;
+                }
 
-        const prevTrk = trkSegs[index - 1];
-        return prev + distance(prevTrk.lat, prevTrk.long, curr.lat, curr.long, 'K');
-    }, 0);
+                const prevTrk = trkSegs[index - 1];
+                return prev + distance(prevTrk.lat, prevTrk.long, curr.lat, curr.long, 'K');
+            }, 0)
+            .toFixed(1)
+    );
 
     const name = getName(trk.name.data);
 
@@ -83,7 +87,10 @@ function mapTrk(trk: Track, gpx: Gpx): MapTrack | undefined {
         version: MapTrackVersion,
         trkSegs,
         totalLengthKilometers,
-        parking,
+        parking: {
+            lat: Number(parking.lat.toFixed(4)),
+            long: Number(parking.long.toFixed(4)),
+        },
     };
 
     return mapTrack;
