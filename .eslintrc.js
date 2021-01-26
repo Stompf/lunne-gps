@@ -11,6 +11,7 @@ module.exports = {
     },
     plugins: ['prettier'],
     rules: {
+        "react/destructuring-assignment": ['off'],
         "react/prop-types": ['off'],
         'import/prefer-default-export': ['off'],
         '@typescript-eslint/no-unused-vars': ['off'],

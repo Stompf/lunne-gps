@@ -89,7 +89,6 @@ function getColor(trkName: string) {
 
         const alreadyUsed = Object.values(trackColors).some((color) => color === randomColor);
         if (!alreadyUsed) {
-            console.log(randomColor);
             trackColors[trkName] = randomColor;
         }
     }

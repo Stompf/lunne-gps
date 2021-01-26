@@ -1,11 +1,13 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { ResponseUploadGpx } from '../common/upload-gpx.response';
 
 interface UploadMapProps {
     setMap: React.Dispatch<React.SetStateAction<ResponseUploadGpx | null>>;
+    currentMap: ResponseUploadGpx | null;
 }
 
 const UploadMap: React.FC<UploadMapProps> = (props) => (
@@ -14,15 +16,26 @@ const UploadMap: React.FC<UploadMapProps> = (props) => (
             {/* <Typography variant="h4" component="h1" gutterBottom>
                     Next.js example
                 </Typography> */}
-            <Button variant="contained" component="label">
-                Upload File
-                <input
-                    accept=".gpx"
-                    type="file"
-                    hidden
-                    onChangeCapture={(e) => handleOnChange(e, props)}
-                />
-            </Button>
+            <Grid container spacing={5} alignItems="flex-end">
+                <Button variant="contained" component="label" color="primary">
+                    Upload File
+                    <input
+                        accept=".gpx"
+                        type="file"
+                        hidden
+                        onChangeCapture={(e) => handleOnChange(e, props)}
+                    />
+                </Button>
+                <Button
+                    variant="contained"
+                    component="label"
+                    color="secondary"
+                    onClick={onSaveMap}
+                    disabled={props.currentMap == null}
+                >
+                    Save
+                </Button>
+            </Grid>
         </Box>
     </Container>
 );
@@ -49,3 +62,5 @@ async function handleOnChange(event: React.FormEvent<HTMLInputElement>, props: U
 
     props.setMap(result);
 }
+
+function onSaveMap() {}

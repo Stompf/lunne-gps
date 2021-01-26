@@ -60,18 +60,24 @@ function mapWaypoint(wpt: Wpt, gpx: Gpx): Waypoint {
 function mapTrk(trk: Track, gpx: Gpx): MapTrack | undefined {
     const trkSegs = getTrks(trk.trkseg.array);
 
-    const totalLengthKilometers = Number(
-        trkSegs
-            .reduce((prev, curr, index) => {
-                if (index === 0) {
-                    return 0;
-                }
+    let totalLengthKilometers = 0;
 
-                const prevTrk = trkSegs[index - 1];
-                return prev + distance(prevTrk.lat, prevTrk.long, curr.lat, curr.long, 'K');
-            }, 0)
-            .toFixed(1)
-    );
+    trk.trkseg.array.forEach((trkSeg, index) => {
+        if (index === 0) {
+            return;
+        }
+        const prevTrk = trkSegs[index - 1];
+
+        totalLengthKilometers += distance(
+            prevTrk.lat,
+            prevTrk.long,
+            Number(trkSeg.trkpt.lat),
+            Number(trkSeg.trkpt.lon),
+            'K'
+        );
+    });
+
+    totalLengthKilometers = Number(totalLengthKilometers.toFixed(1));
 
     const name = getName(trk.name.data);
 

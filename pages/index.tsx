@@ -9,7 +9,7 @@ export default function Home() {
         <main>
             <div id="map">
                 <MapWithNoSSR map={map} />
-                <UploadMap setMap={setMap} />
+                <UploadMap setMap={setMap} currentMap={map} />
             </div>
         </main>
     );
