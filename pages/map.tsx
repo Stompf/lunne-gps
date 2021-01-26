@@ -6,6 +6,8 @@ import 'leaflet-defaulticon-compatibility';
 import { LatLngTuple } from 'leaflet';
 import { ResponseUploadGpx } from '../common/upload-gpx.response';
 
+const trackColors: Record<string, string> = {};
+
 interface MapProps {
     map: ResponseUploadGpx | null;
 }
@@ -32,13 +34,13 @@ function getCenter(): LatLngTuple {
 }
 
 function getMarkers(map: ResponseUploadGpx | null) {
-    if (!map || !map.waypoints) {
+    if (!map || !map.mapTracks) {
         return null;
     }
 
-    return map.waypoints.map((wpt) => (
-        <Marker key={wpt.name} position={[wpt.lat, wpt.long]}>
-            <Popup>{wpt.name}</Popup>
+    return map.mapTracks.map((trk) => (
+        <Marker key={trk.name} position={[trk.parking.lat, trk.parking.long]}>
+            <Popup>{`${trk.name} - ${trk.parking.lat} ${trk.parking.long}`}</Popup>
         </Marker>
     ));
 }
@@ -51,7 +53,7 @@ function getPolylines(map: ResponseUploadGpx | null) {
     return map.mapTracks.map((trk) => (
         <Polyline
             key={trk.name}
-            pathOptions={{ color: trk.color ?? 'red' }}
+            pathOptions={{ color: getColor(trk.name) }}
             positions={[
                 trk.trkSegs.map((trkSeg) => ({
                     lat: trkSeg.lat,
@@ -60,4 +62,25 @@ function getPolylines(map: ResponseUploadGpx | null) {
             ]}
         />
     ));
+}
+
+function getColor(trkName: string) {
+    while (!trackColors[trkName]) {
+        // const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+        let randomColor = '#';
+        // eslint-disable-next-line no-plusplus
+        for (let i = 0; i < 3; i++)
+            // eslint-disable-next-line no-restricted-properties
+            randomColor += `0${Math.floor((Math.random() * Math.pow(16, 2)) / 2).toString(
+                16
+            )}`.slice(-2);
+
+        const alreadyUsed = Object.values(trackColors).some((color) => color === randomColor);
+        if (!alreadyUsed) {
+            console.log(randomColor);
+            trackColors[trkName] = randomColor;
+        }
+    }
+
+    return trackColors[trkName];
 }

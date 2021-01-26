@@ -1525,7 +1525,7 @@
     <ele>23</ele>
     <time>2015-07-24T09:45:00Z</time>
     <name>SK21-A</name>
-    <sym>Pin, Red</sym>
+    <sym>Parking Area</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
         <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
@@ -3689,7 +3689,7 @@
     <ele>2</ele>
     <time>2015-08-17T14:10:05Z</time>
     <name>SK6-A</name>
-    <sym>Pin, Red</sym>
+    <sym>Parking Area</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
         <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>

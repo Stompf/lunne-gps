@@ -9,6 +9,7 @@ export interface MapTrack {
     trkSegs: TrackSeg[];
     totalLengthKilometers: number;
     color: string;
+    parking: LatLong;
 }
 
 export interface TrackSeg extends LatLong {

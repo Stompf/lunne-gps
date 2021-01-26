@@ -6,4 +6,5 @@ export interface Waypoint extends LatLong {
     name: string;
     version: number;
     gpxVersion: string;
+    sym: string;
 }

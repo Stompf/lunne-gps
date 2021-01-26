@@ -240,7 +240,7 @@
   <wpt lat="55.61004102230072" lon="13.554659010842443">
     <ele>59</ele>
     <time>2019-04-21T06:55:16Z</time>
-    <name>Start</name>
+    <name>Körsbärsdalen Humlamaden-Start</name>
     <sym>Parking Area</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -250,7 +250,7 @@
   </wpt>
 
   <trk>
-    <name>Körsbärsdalen-Humlamaden</name>
+    <name>Körsbärsdalen Humlamaden</name>
     <extensions>
       <gpxx:TrackExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
         <gpxx:DisplayColor>Green</gpxx:DisplayColor>

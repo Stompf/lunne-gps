@@ -61,7 +61,7 @@
   <wpt lat="55.513188969343901" lon="14.346305960789323">
     <ele>-1.187925</ele>
     <time>2019-03-30T11:06:29Z</time>
-    <name>NStart</name>
+    <name>Norra Brantevik-Start</name>
     <sym>Trail Head</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -137,7 +137,7 @@
 
   <wpt lat="55.513236662372947" lon="14.348043445497751">
     <time>2019-04-20T19:36:00Z</time>
-    <name>SStart</name>
+    <name>Södra Brantevik-Start</name>
     <cmt>Vandringsled</cmt>
     <desc>Vandringsled</desc>
     <sym>Trail Head</sym>
