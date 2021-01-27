@@ -39,7 +39,7 @@ function getMarkers(map: ResponseUploadGpx | null) {
     }
 
     return map.mapTracks.map((trk) => (
-        <Marker key={trk.name} position={[trk.parking.lat, trk.parking.long]}>
+        <Marker key={`${trk.name}-parking`} position={[trk.parking.lat, trk.parking.long]}>
             <Popup>
                 <p>{trk.name}</p>
                 <p>{`${trk.totalLengthKilometers}km`}</p>

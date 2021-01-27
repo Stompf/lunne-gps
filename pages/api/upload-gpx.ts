@@ -8,6 +8,8 @@ import { Gpx, GpxRoot, Track, TrackPoint, Wpt } from './models/gpx';
 import { LatLong } from './models/lat-long';
 import { distance } from './services/geo-utils';
 
+const IGNORED_TRACKS = ['hagen', 'ms12-kort alt', 'ms19-agusa vilthägn'];
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const obj: GpxRoot = parseXML('upload', req.body);
 
@@ -30,6 +32,8 @@ function getMapTracks(gpx: Gpx): (MapTrack | undefined)[] {
     return array
         .filter(isTrack)
         .map(mapToTrack)
+        .filter((track) => !track.name.data.toLowerCase().includes('-genväg'))
+        .filter((track) => !IGNORED_TRACKS.includes(track.name.data.toLowerCase()))
         .map((track) => mapTrk(track, gpx));
 }
 
