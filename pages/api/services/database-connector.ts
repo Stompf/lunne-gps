@@ -7,12 +7,15 @@ async function initDatabase() {
         throw Error('Missing auth');
     }
 
-    const client = await MongoClient.connect(`${process.env.DB_HOST}:${process.env.DB_PORT}`, {
+    const uri = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}`;
+
+    const client = await MongoClient.connect(uri, {
         auth: {
             user: process.env.DB_USER,
             password: process.env.DB_PASS,
         },
     });
+
     db = client.db(process.env.DB_NAME);
 }
 

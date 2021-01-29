@@ -36,6 +36,13 @@ const UploadMap: React.FC<UploadMapProps> = (props) => {
 
         setFileName(files[0].name);
         props.setMap(result);
+
+        const name = files[0].name
+            .substring(0, files[0].name.lastIndexOf('.'))
+            .replaceAll(' ', '-')
+            .toLowerCase();
+
+        setInput(name);
     };
 
     const onSaveMap = async () => {
@@ -56,7 +63,7 @@ const UploadMap: React.FC<UploadMapProps> = (props) => {
             collectionName: input,
         };
 
-        const response = await fetch('/api/save-map-tracks', {
+        await fetch('/api/save-map-tracks', {
             method: 'POST',
             body: JSON.stringify(request),
             headers: {
@@ -64,9 +71,6 @@ const UploadMap: React.FC<UploadMapProps> = (props) => {
                 'Content-Type': 'application/json',
             },
         });
-        const result: ResponseUploadGpx = await response.json();
-
-        console.log('result', result);
     };
 
     return (
@@ -83,6 +87,7 @@ const UploadMap: React.FC<UploadMapProps> = (props) => {
                 </Box>
                 <Box my={4} hidden={props.currentMap == null}>
                     <Input
+                        style={{ width: '300px' }}
                         value={input}
                         onInput={(e) => setInput((e.target as HTMLInputElement).value)}
                         placeholder="Collection name"

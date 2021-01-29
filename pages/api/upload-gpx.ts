@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse, PageConfig } from 'next';
 import { isNotNullOrUndefined } from '../../common/isNotNullOrUndefined';
 import { parseXML } from '../../common/parseXML';
 import { ResponseUploadGpx } from '../../common/upload-gpx.response';
-import { MapTrack, MapTrackVersion, TrackSeg } from './models/database/map-track';
+import { MapTrackBeforeSave, MapTrackVersion, TrackSeg } from './models/database/map-track';
 import { Waypoint, WaypointVersion } from './models/database/waypoint';
 import { Gpx, GpxRoot, Track, TrackPoint, Wpt } from './models/gpx';
 import { LatLong } from './models/lat-long';
@@ -22,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json(response);
 };
 
-function getMapTracks(gpx: Gpx): (MapTrack | undefined)[] {
+function getMapTracks(gpx: Gpx): (MapTrackBeforeSave | undefined)[] {
     const { trk, array = [] } = gpx;
 
     if (trk) {
@@ -61,7 +61,7 @@ function mapWaypoint(wpt: Wpt, gpx: Gpx): Waypoint {
     };
 }
 
-function mapTrk(trk: Track, gpx: Gpx): MapTrack | undefined {
+function mapTrk(trk: Track, gpx: Gpx): MapTrackBeforeSave | undefined {
     const trkSegs = getTrks(trk.trkseg.array);
 
     let totalLengthKilometers = 0;
@@ -90,7 +90,7 @@ function mapTrk(trk: Track, gpx: Gpx): MapTrack | undefined {
         long: trkSegs[0].long,
     };
 
-    const mapTrack: MapTrack = {
+    const mapTrack: MapTrackBeforeSave = {
         color: trk.extensions?.['gpxx:TrackExtension']['gpxx:DisplayColor'].data || 'red',
         name,
         gpxVersion: gpx.version,

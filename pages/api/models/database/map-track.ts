@@ -2,6 +2,8 @@ import { LatLong } from '../lat-long';
 
 export const MapTrackVersion = 1;
 
+export type MapTrackBeforeSave = Omit<MapTrack, 'collection'>;
+
 export interface MapTrack {
     name: string;
     version: number;
@@ -10,6 +12,7 @@ export interface MapTrack {
     totalLengthKilometers: number;
     color: string;
     parking: LatLong;
+    collection: string;
 }
 
 export interface TrackSeg extends LatLong {
