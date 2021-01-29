@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import 'leaflet-defaulticon-compatibility';
 import { LatLngTuple } from 'leaflet';
+import TextPath from 'react-leaflet-textpath';
 import { ResponseUploadGpx } from '../common/upload-gpx.response';
 
 const trackColors: Record<string, string> = {};
@@ -61,19 +62,39 @@ function getPolylines(map: ResponseUploadGpx | null) {
     }
 
     return map.mapTracks.map((trk) => (
-        <Polyline
+        <TextPath
             key={trk.name}
-            pathOptions={{ color: getColor(trk.name) }}
             positions={[
                 trk.trkSegs.map((trkSeg) => ({
                     lat: trkSeg.lat,
                     lng: trkSeg.long,
                 })),
             ]}
-        >
-            <Tooltip sticky>{trk.name}</Tooltip>
-        </Polyline>
+            text=" > "
+            center
+            offset={30}
+            attributes={{
+                'font-size': 30,
+            }}
+            repeat
+            pathOptions={{ color: getColor(trk.name) }}
+        />
     ));
+
+    // return map.mapTracks.map((trk) => (
+    //     <Polyline
+    //         key={trk.name}
+    //         pathOptions={{ color: getColor(trk.name) }}
+    //         positions={[
+    //             trk.trkSegs.map((trkSeg) => ({
+    //                 lat: trkSeg.lat,
+    //                 lng: trkSeg.long,
+    //             })),
+    //         ]}
+    //     >
+    //         <Tooltip sticky>{trk.name}</Tooltip>
+    //     </Polyline>
+    // ));
 }
 
 function getColor(trkName: string) {
