@@ -29,11 +29,18 @@ function getMapTracks(gpx: Gpx): (MapTrackBeforeSave | undefined)[] {
         return [mapTrk(trk, gpx)];
     }
 
-    return array
-        .filter(isTrack)
-        .map(mapToTrack)
+    const allTracks = array.filter(isTrack).map(mapToTrack);
+
+    return allTracks
         .filter((track) => !track.name.data.toLowerCase().includes('-genväg'))
         .filter((track) => !IGNORED_TRACKS.includes(track.name.data.toLowerCase()))
+        .filter((track) =>
+            allTracks.every(
+                (t) =>
+                    t.name.data.toLowerCase() !== `${track.name.data.toLowerCase()}-reviderad` &&
+                    t.name.data.toLowerCase() !== `${track.name.data.toLowerCase()}--reviderad`
+            )
+        )
         .map((track) => mapTrk(track, gpx));
 }
 
