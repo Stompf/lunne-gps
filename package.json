@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@material-ui/core": "^4.11.4",
+        "@tmcw/togeojson": "^4.4.1",
         "jsdom": "^16.5.3",
         "leaflet": "^1.7.1",
         "leaflet-defaulticon-compatibility": "^0.1.1",
@@ -22,7 +23,8 @@
         "react-dom": "17.0.2",
         "react-leaflet": "^3.1.0",
         "react-leaflet-textpath": "^2.0.0",
-        "sax": "^1.2.4"
+        "sax": "^1.2.4",
+        "xmldom": "^0.6.0"
     },
     "devDependencies": {
         "@types/jsdom": "^16.2.10",
@@ -32,6 +34,7 @@
         "@types/node-fetch": "^2.5.10",
         "@types/react": "^17.0.5",
         "@types/sax": "^1.2.1",
+        "@types/xmldom": "^0.1.30",
         "@typescript-eslint/eslint-plugin": "^4.23.0",
         "@typescript-eslint/parser": "^4.23.0",
         "eslint": "^7.26.0",

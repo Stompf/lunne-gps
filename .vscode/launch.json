@@ -7,13 +7,20 @@
             "type": "chrome",
             "request": "launch",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}/public",
             "sourceMapPathOverrides": {
-                "webpack:///./*": "${workspaceFolder}/*"
+                "webpack://_N_E/*": "${workspaceFolder}/*"
             },
             "sourceMaps": true,
             "smartStep": true,
             "userDataDir": "${workspaceFolder}/.vscode/chrome"
-        }
+        },
+        {
+            "preLaunchTask": "npm: start-dev",
+            "type": "node",
+            "request": "attach",
+            "name": "Launch Program",
+            "skipFiles": ["<node_internals>/**"],
+            "port": 9229
+          }
     ]
 }
