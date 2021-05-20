@@ -3,9 +3,10 @@ import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import 'leaflet-defaulticon-compatibility';
-import { LatLngTuple } from 'leaflet';
+import { LatLngTuple, Layer } from 'leaflet';
 // import TextPath from 'react-leaflet-textpath';
 import { ResponseUploadMap } from '../common/upload-map.response';
+import { Feature, Geometry } from 'geojson';
 
 // const trackColors: Record<string, string> = {};
 
@@ -24,12 +25,21 @@ const Map: React.FC<MapProps> = ({ map }) => (
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {map?.geoJson && <GeoJSON data={map.geoJson} />}
+        {map?.geoJson && (
+            <GeoJSON key={map?.name} data={map.geoJson} onEachFeature={onEachFeature} />
+        )}
         {/* {getMarkers(map)}
         {getPolylines(map)} */}
     </MapContainer>
 );
 export default Map;
+
+function onEachFeature(feature: Feature<Geometry, any>, layer: Layer) {
+    // if (feature.geometry.type !== 'Point') {
+    //     return;
+    // }
+    layer.bindPopup(feature.properties.name);
+}
 
 function getCenter(): LatLngTuple {
     return [55.70931748427305, 13.20301329459559];

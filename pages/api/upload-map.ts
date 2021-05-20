@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse, PageConfig } from 'next';
 import { gpx } from '@tmcw/togeojson';
 import { DOMParser } from 'xmldom';
 import { LineString } from 'geojson';
+import crypto from 'crypto';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const obj = new DOMParser().parseFromString(req.body);
@@ -26,9 +27,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     converted.features = converted.features.concat(points);
 
-    console.log('converted', converted.features[0]);
+    const sha256 = crypto.createHash('sha256').update(req.body).digest('hex');
 
-    res.status(200).json({ geoJson: converted });
+    res.status(200).json({ geoJson: converted, name: sha256 });
 };
 
 export const config: PageConfig = {
