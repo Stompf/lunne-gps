@@ -1,12 +1,14 @@
 import React from 'react';
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, FeatureGroup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import 'leaflet-defaulticon-compatibility';
+import 'leaflet-draw/dist/leaflet.draw.css';
 import { LatLngTuple, Layer } from 'leaflet';
 // import TextPath from 'react-leaflet-textpath';
 import { ResponseUploadMap } from '../common/upload-map.response';
 import { Feature, Geometry } from 'geojson';
+import { EditControl } from 'react-leaflet-draw';
 
 // const trackColors: Record<string, string> = {};
 
@@ -26,7 +28,10 @@ const Map: React.FC<MapProps> = ({ map }) => (
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {map?.geoJson && (
-            <GeoJSON key={map?.name} data={map.geoJson} onEachFeature={onEachFeature} />
+            <FeatureGroup>
+                <EditControl position="topright" draw={{}} />
+                <GeoJSON key={map?.name} data={map.geoJson} onEachFeature={onEachFeature} />
+            </FeatureGroup>
         )}
         {/* {getMarkers(map)}
         {getPolylines(map)} */}
@@ -35,10 +40,13 @@ const Map: React.FC<MapProps> = ({ map }) => (
 export default Map;
 
 function onEachFeature(feature: Feature<Geometry, any>, layer: Layer) {
-    // if (feature.geometry.type !== 'Point') {
-    //     return;
-    // }
-    layer.bindPopup(feature.properties.name);
+    const properties = [feature.properties.name];
+
+    if (feature.properties.totalDistance) {
+        properties.push(`${feature.properties.totalDistance}km`);
+    }
+
+    layer.bindPopup(properties.join(' - '));
 }
 
 function getCenter(): LatLngTuple {
