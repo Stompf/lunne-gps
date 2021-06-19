@@ -1,6 +1,7 @@
-import { MapTrackBeforeSave } from '../pages/api/models/database/map-track';
+import { GeoJsonObject } from 'geojson';
 
 export interface SaveGpxTracksRequest {
     collectionName: string;
-    mapTracks: MapTrackBeforeSave[];
+    collectionHash: string;
+    mapTracks: GeoJsonObject;
 }

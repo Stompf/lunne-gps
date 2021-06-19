@@ -3,9 +3,8 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { Input, Typography } from '@material-ui/core';
-// import { ResponseUploadGpx } from '../common/upload-gpx.response';
-// import { SaveGpxTracksRequest } from '../common/save-gpx-tracks.request';
 import { ResponseUploadMap } from '../common/upload-map.response';
+import { SaveGpxTracksRequest } from '../common/save-gpx-tracks.request';
 
 interface UploadMapProps {
     setMap: React.Dispatch<React.SetStateAction<ResponseUploadMap | null>>;
@@ -60,19 +59,20 @@ const UploadMap: React.FC<UploadMapProps> = (props) => {
             return;
         }
 
-        // const request: SaveGpxTracksRequest = {
-        //     mapTracks: props.currentMap.mapTracks,
-        //     collectionName: input,
-        // };
+        const request: SaveGpxTracksRequest = {
+            mapTracks: props.currentMap.geoJson,
+            collectionHash: props.currentMap.name,
+            collectionName: input,
+        };
 
-        // await fetch('/api/save-map-tracks', {
-        //     method: 'POST',
-        //     body: JSON.stringify(request),
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json',
-        //     },
-        // });
+        await fetch('/api/save-map-tracks', {
+            method: 'POST',
+            body: JSON.stringify(request),
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        });
     };
 
     return (

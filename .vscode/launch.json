@@ -3,10 +3,24 @@
     "configurations": [
         {
             "preLaunchTask": "npm: start-dev",
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}",
+            "userDataDir": "${workspaceFolder}/.vscode/chrome",
+            "smartStep": true,
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "webpack://_N_E/*": "${workspaceFolder}/*"
+            },
+        },    
+        {
+            "preLaunchTask": "npm: start-dev",
             "name": "Start Debug",
             "type": "chrome",
             "request": "launch",
-            "url": "http://localhost:3000",
+            "url": "http://localhost",         
             "sourceMapPathOverrides": {
                 "webpack://_N_E/*": "${workspaceFolder}/*"
             },
