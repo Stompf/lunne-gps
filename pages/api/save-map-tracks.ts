@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const db = await getDB();
 
-    const result = await db.collection('tracks').insert(obj.mapTracks);
+    const result = await db.collection('tracks').insertOne(obj.mapTracks);
     console.log(`Insert result`, result);
 
     res.status(200).json(result);
