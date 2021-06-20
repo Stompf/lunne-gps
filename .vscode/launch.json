@@ -3,17 +3,38 @@
     "configurations": [
         {
             "preLaunchTask": "npm: start-dev",
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}",
+            "userDataDir": "${workspaceFolder}/.vscode/chrome",
+            "smartStep": true,
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "webpack://_N_E/*": "${workspaceFolder}/*"
+            },
+        },    
+        {
+            "preLaunchTask": "npm: start-dev",
             "name": "Start Debug",
             "type": "chrome",
             "request": "launch",
-            "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}/public",
+            "url": "http://localhost",         
             "sourceMapPathOverrides": {
-                "webpack:///./*": "${workspaceFolder}/*"
+                "webpack://_N_E/*": "${workspaceFolder}/*"
             },
             "sourceMaps": true,
             "smartStep": true,
             "userDataDir": "${workspaceFolder}/.vscode/chrome"
-        }
+        },
+        {
+            "preLaunchTask": "npm: start-dev",
+            "type": "node",
+            "request": "attach",
+            "name": "Launch Program",
+            "skipFiles": ["<node_internals>/**"],
+            "port": 9229
+          }
     ]
 }

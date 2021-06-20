@@ -3,12 +3,12 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { Input, Typography } from '@material-ui/core';
-import { ResponseUploadGpx } from '../common/upload-gpx.response';
+import { ResponseUploadMap } from '../common/upload-map.response';
 import { SaveGpxTracksRequest } from '../common/save-gpx-tracks.request';
 
 interface UploadMapProps {
-    setMap: React.Dispatch<React.SetStateAction<ResponseUploadGpx | null>>;
-    currentMap: ResponseUploadGpx | null;
+    setMap: React.Dispatch<React.SetStateAction<ResponseUploadMap | null>>;
+    currentMap: ResponseUploadMap | null;
 }
 
 const UploadMap: React.FC<UploadMapProps> = (props) => {
@@ -22,7 +22,7 @@ const UploadMap: React.FC<UploadMapProps> = (props) => {
             return;
         }
 
-        const response = await fetch('/api/upload-gpx', {
+        const response = await fetch('/api/upload-map', {
             method: 'POST',
             body: files[0],
             headers: {
@@ -32,7 +32,8 @@ const UploadMap: React.FC<UploadMapProps> = (props) => {
             },
         });
 
-        const result: ResponseUploadGpx = await response.json();
+        const result: ResponseUploadMap = await response.json();
+        console.log('result', result);
 
         setFileName(files[0].name);
         props.setMap(result);
@@ -59,7 +60,8 @@ const UploadMap: React.FC<UploadMapProps> = (props) => {
         }
 
         const request: SaveGpxTracksRequest = {
-            mapTracks: props.currentMap.mapTracks,
+            mapTracks: props.currentMap.geoJson,
+            collectionHash: props.currentMap.name,
             collectionName: input,
         };
 

@@ -10,18 +10,19 @@ async function initDatabase() {
     const uri = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}`;
 
     const client = await MongoClient.connect(uri, {
+        useUnifiedTopology: true,
         auth: {
             user: process.env.DB_USER,
             password: process.env.DB_PASS,
         },
     });
 
-    db = client.db(process.env.DB_NAME);
+    return client.db(process.env.DB_NAME);
 }
 
 export async function getDB() {
     if (!db) {
-        await initDatabase();
+        db = await initDatabase();
     }
-    return db!;
+    return db;
 }
